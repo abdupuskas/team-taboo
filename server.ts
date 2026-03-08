@@ -43,18 +43,21 @@ app.prepare().then(() => {
 
   const gameManager = new GameManager({
     onStateChange: (roomCode, state) => {
-      // Send redacted state to all players
-      io.to(`room:${roomCode}`).emit('game-state', withServerHost(state));
-      // Send full state (with words) to describer only
       if (state.currentTurn && (state.phase === 'describing' || state.phase === 'turn-start')) {
-        const describerState = gameManager.getDescriberState(roomCode);
-        if (describerState) {
-          const describer = state.players[state.currentTurn.describerId];
-          if (describer) {
+        const describer = state.players[state.currentTurn.describerId];
+        if (describer) {
+          // Send redacted state to everyone EXCEPT describer
+          io.to(`room:${roomCode}`).except(describer.socketId).emit('game-state', withServerHost(state));
+          // Send full state to describer only
+          const describerState = gameManager.getDescriberState(roomCode);
+          if (describerState) {
             io.to(describer.socketId).emit('game-state', withServerHost(describerState));
           }
+          return;
         }
       }
+      // Default: send to all (lobby, turn-end, game-over phases)
+      io.to(`room:${roomCode}`).emit('game-state', withServerHost(state));
     },
     onTimerTick: (roomCode, timeLeft) => {
       io.to(`room:${roomCode}`).emit('timer-tick', timeLeft);
