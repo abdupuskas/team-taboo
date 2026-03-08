@@ -111,8 +111,19 @@ export default function Scoreboard({ gameState, turnResult, isGameOver, isHost, 
         </p>
       )}
 
-      {!isGameOver && !isNextDescriber && !nextDescriberName && (
-        <p className="mt-6 text-slate-400 text-sm animate-pulse">Last round!</p>
+      {!isGameOver && !isNextDescriber && !nextDescriberName && isHost && onNextTurn && (
+        <button
+          onClick={onNextTurn}
+          className="mt-8 w-full max-w-md py-4 rounded-xl text-xl font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg transition-all cursor-pointer"
+        >
+          See Final Results
+        </button>
+      )}
+
+      {!isGameOver && !isNextDescriber && !nextDescriberName && !isHost && (
+        <p className="mt-6 text-slate-400 text-sm animate-pulse">
+          Waiting for host to end the game...
+        </p>
       )}
     </div>
   );

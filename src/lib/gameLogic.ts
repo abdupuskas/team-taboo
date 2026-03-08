@@ -381,7 +381,10 @@ export class GameManager {
     const nextIndex = room.state.currentTurnIndex + 1;
     const nextTurnInfo = room.state.turnOrder[nextIndex];
     if (!nextTurnInfo) {
-      // No more turns — end game
+      // No more turns — only host can end the game
+      if (playerId !== room.state.hostId) {
+        return { success: false, error: 'Only the host can end the game' };
+      }
       room.state.currentTurnIndex++;
       this.endGame(room.state.roomCode);
       return { success: true };
