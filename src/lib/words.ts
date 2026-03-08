@@ -209,21 +209,6 @@ const videoGames = [
   'age of empires', 'sim city', 'roller coaster tycoon', 'candy crush',
 ];
 
-const emotions = [
-  'happiness', 'sadness', 'anger', 'fear', 'surprise', 'disgust', 'contempt',
-  'jealousy', 'envy', 'gratitude', 'pride', 'shame', 'guilt', 'embarrassment',
-  'anxiety', 'excitement', 'boredom', 'confusion', 'curiosity', 'nostalgia',
-  'melancholy', 'euphoria', 'serenity', 'frustration', 'irritation', 'rage',
-  'panic', 'dread', 'horror', 'terror', 'awe', 'wonder', 'amazement',
-  'admiration', 'adoration', 'affection', 'compassion', 'sympathy', 'empathy',
-  'loneliness', 'homesickness', 'heartbreak', 'grief', 'despair', 'hopelessness',
-  'optimism', 'pessimism', 'skepticism', 'suspicion', 'paranoia', 'trust',
-  'betrayal', 'resentment', 'forgiveness', 'relief', 'satisfaction', 'contentment',
-  'ecstasy', 'bliss', 'delight', 'amusement', 'hilarity', 'giddiness',
-  'nervousness', 'apprehension', 'tension', 'stress', 'overwhelm', 'exhaustion',
-  'determination', 'motivation', 'inspiration', 'ambition', 'courage', 'confidence',
-];
-
 const actions = [
   'swimming', 'climbing', 'juggling', 'whistling', 'yawning', 'sneezing',
   'hiccupping', 'stretching', 'crawling', 'tiptoeing', 'leapfrog', 'somersault',
@@ -241,23 +226,6 @@ const actions = [
   'sleepwalking', 'daydreaming', 'brainstorming', 'procrastinating', 'multitasking',
   'improvising', 'meditating', 'eavesdropping', 'gossiping', 'whispering',
   'screaming', 'stammering', 'mumbling', 'rambling', 'ranting',
-];
-
-const adjectives = [
-  'gigantic', 'microscopic', 'enormous', 'tiny', 'colossal', 'miniature',
-  'ancient', 'futuristic', 'medieval', 'prehistoric', 'vintage', 'modern',
-  'gorgeous', 'hideous', 'elegant', 'grotesque', 'majestic', 'pathetic',
-  'brilliant', 'idiotic', 'genius', 'foolish', 'clever', 'naive',
-  'courageous', 'cowardly', 'fearless', 'timid', 'bold', 'shy',
-  'generous', 'greedy', 'charitable', 'selfish', 'humble', 'arrogant',
-  'mysterious', 'obvious', 'cryptic', 'transparent', 'enigmatic', 'predictable',
-  'chaotic', 'orderly', 'turbulent', 'peaceful', 'hectic', 'tranquil',
-  'delicious', 'disgusting', 'scrumptious', 'revolting', 'appetizing', 'nauseating',
-  'hilarious', 'tragic', 'comical', 'heartbreaking', 'absurd', 'devastating',
-  'magnificent', 'terrible', 'spectacular', 'awful', 'phenomenal', 'dreadful',
-  'contagious', 'immune', 'infectious', 'resistant', 'vulnerable', 'invincible',
-  'radioactive', 'magnetic', 'electric', 'explosive', 'flammable', 'fireproof',
-  'invisible', 'transparent', 'opaque', 'luminous', 'fluorescent', 'iridescent',
 ];
 
 const science = [
@@ -399,24 +367,6 @@ const transportation = [
   'dogsled', 'rickshaw', 'chariot', 'stagecoach', 'covered wagon',
 ];
 
-const concepts = [
-  'democracy', 'freedom', 'justice', 'equality', 'revolution', 'evolution',
-  'gravity', 'infinity', 'paradox', 'irony', 'sarcasm', 'metaphor',
-  'analogy', 'allegory', 'symbolism', 'foreshadowing', 'plot twist',
-  'cliffhanger', 'flashback', 'montage', 'slow motion', 'time lapse',
-  'deja vu', 'serendipity', 'epiphany', 'eureka', 'brainstorm',
-  'stereotype', 'cliche', 'taboo', 'jinx', 'curse', 'blessing',
-  'prophecy', 'destiny', 'fate', 'luck', 'coincidence', 'miracle',
-  'illusion', 'hallucination', 'daydream', 'nightmare', 'lucid dream',
-  'insomnia', 'amnesia', 'nostalgia', 'wanderlust', 'claustrophobia',
-  'acrophobia', 'arachnophobia', 'stage fright', 'butterflies',
-  'peer pressure', 'mob mentality', 'culture shock', 'generation gap',
-  'midlife crisis', 'identity crisis', 'impostor syndrome', 'burnout',
-  'procrastination', 'perfectionism', 'minimalism', 'maximalism',
-  'renaissance man', 'jack of all trades', 'prodigy', 'genius', 'savant',
-  'underdog', 'dark horse', 'wild card', 'scapegoat', 'whistleblower',
-];
-
 const foodAndDrink2 = [
   'soufflé', 'crème brûlée', 'profiterole', 'baklava', 'mochi',
   'bibimbap', 'pad thai', 'pho', 'tikka masala', 'biryani', 'samosa',
@@ -515,13 +465,30 @@ const brands = [
   'popsicle', 'drumstick', 'ice cream sandwich', 'banana split', 'sundae',
 ];
 
-const sounds = [
-  'thunder', 'whistle', 'siren', 'alarm', 'doorbell', 'ringtone',
-  'echo', 'feedback', 'static', 'white noise', 'lullaby', 'battle cry',
-  'wolf howl', 'rooster crow', 'cat purr', 'dog bark', 'bird song',
-  'cricket chirp', 'frog croak', 'bee buzz', 'lion roar', 'whale song',
-  'heartbeat', 'applause', 'standing ovation', 'boo', 'chant',
-  'drum roll', 'round of applause', 'mic drop', 'sound effect',
+const sportsStars = [
+  // Athletes
+  'Lionel Messi', 'Cristiano Ronaldo', 'LeBron James', 'Michael Jordan',
+  'Serena Williams', 'Usain Bolt', 'Muhammad Ali', 'Tiger Woods',
+  'Tom Brady', 'Kobe Bryant', 'Neymar', 'Kylian Mbappe',
+  'Roger Federer', 'Rafael Nadal', 'Novak Djokovic', 'Mike Tyson',
+  'Floyd Mayweather', 'Simone Biles', 'Michael Phelps', 'Wayne Gretzky',
+  'David Beckham', 'Zinedine Zidane', 'Pele', 'Maradona',
+  'Shaquille O\'Neal', 'Stephen Curry', 'Kevin Durant', 'Giannis Antetokounmpo',
+  'Lewis Hamilton', 'Max Verstappen', 'Conor McGregor', 'The Rock',
+  'John Cena', 'Virat Kohli', 'Sachin Tendulkar', 'Naomi Osaka',
+  'Venus Williams', 'Ronaldinho', 'Zlatan Ibrahimovic', 'Mohamed Salah',
+  'Erling Haaland', 'Luka Modric', 'Thierry Henry', 'Ronaldo Nazario',
+  'Shohei Ohtani', 'Derek Jeter', 'Babe Ruth', 'Michael Schumacher',
+  // Teams
+  'Real Madrid', 'Barcelona', 'Manchester United', 'Liverpool',
+  'Bayern Munich', 'Paris Saint-Germain', 'Juventus', 'AC Milan',
+  'Chelsea', 'Arsenal', 'Manchester City', 'Borussia Dortmund',
+  'Los Angeles Lakers', 'Golden State Warriors', 'Chicago Bulls',
+  'Boston Celtics', 'Miami Heat', 'New York Knicks',
+  'New York Yankees', 'Dallas Cowboys', 'New England Patriots',
+  'Green Bay Packers', 'All Blacks', 'Springboks',
+  'Ferrari', 'Red Bull Racing', 'Mercedes F1',
+  'Al Ahly', 'Flamengo', 'Boca Juniors', 'River Plate',
 ];
 
 const weird = [
@@ -557,11 +524,11 @@ const seasonalAndWeather = [
 export const ALL_WORDS: string[] = [...new Set([
   ...animals, ...food, ...countries, ...objects, ...professions, ...sports,
   ...places, ...movies, ...tvShows, ...celebrities, ...music, ...videoGames,
-  ...emotions, ...actions, ...adjectives, ...science, ...history, ...mythical,
+  ...actions, ...science, ...history, ...mythical,
   ...miscellaneous, ...fashion, ...bodyAndHealth, ...nature, ...transportation,
-  ...concepts, ...foodAndDrink2, ...occupationsAndRoles, ...expressions,
-  ...technology, ...sportsAndGames2, ...everyday, ...brands, ...sounds,
-  ...weird, ...seasonalAndWeather,
+  ...foodAndDrink2, ...occupationsAndRoles, ...expressions,
+  ...technology, ...sportsAndGames2, ...everyday, ...brands,
+  ...weird, ...seasonalAndWeather, ...sportsStars,
 ])];
 
 // Fisher-Yates shuffle
