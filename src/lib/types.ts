@@ -81,5 +81,7 @@ export interface ClientToServerEvents {
   'next-turn': (data: { playerId: string }) => void;
   'add-team': (data: { playerId: string }) => void;
   'remove-team': (data: { playerId: string; teamId: string }) => void;
+  'transfer-host': (data: { playerId: string; newHostId: string }) => void;
+  'revoke-word': (data: { playerId: string; wordIndex: number }) => void;
   'reconnect-player': (data: { playerId: string; roomCode: string }, callback: (response: { success: boolean; state?: GameState; error?: string }) => void) => void;
 }

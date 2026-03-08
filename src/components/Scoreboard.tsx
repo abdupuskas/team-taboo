@@ -11,9 +11,10 @@ interface ScoreboardProps {
   nextDescriberName?: string;
   onPlayAgain?: () => void;
   onNextTurn?: () => void;
+  onRevokeWord?: (wordIndex: number) => void;
 }
 
-export default function Scoreboard({ gameState, turnResult, isGameOver, isHost, isNextDescriber, nextDescriberName, onPlayAgain, onNextTurn }: ScoreboardProps) {
+export default function Scoreboard({ gameState, turnResult, isGameOver, isHost, isNextDescriber, nextDescriberName, onPlayAgain, onNextTurn, onRevokeWord }: ScoreboardProps) {
   const sortedTeams = [...gameState.teams]
     .filter(t => t.playerIds.length > 0)
     .sort((a, b) => b.score - a.score);
@@ -51,13 +52,26 @@ export default function Scoreboard({ gameState, turnResult, isGameOver, isHost, 
               <span className={`font-medium ${card.guessedBy ? 'text-green-700' : 'text-slate-400'}`}>
                 {card.word}
               </span>
-              {card.guessedBy ? (
-                <span className="text-green-600 text-sm">
-                  {card.guessedBy} +{card.points}
-                </span>
-              ) : (
-                <span className="text-slate-400 text-sm">missed</span>
-              )}
+              <div className="flex items-center gap-2">
+                {card.guessedBy ? (
+                  <>
+                    <span className="text-green-600 text-sm">
+                      {card.guessedBy} +{card.points}
+                    </span>
+                    {!isGameOver && isHost && onRevokeWord && (
+                      <button
+                        onClick={() => onRevokeWord(i)}
+                        className="text-slate-400 hover:text-red-500 text-xs transition-colors cursor-pointer"
+                        title="Revoke point (cheating)"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-slate-400 text-sm">missed</span>
+                )}
+              </div>
             </div>
           ))}
         </div>

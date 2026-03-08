@@ -128,6 +128,18 @@ export function useGame() {
     }
   }, [socket, playerId]);
 
+  const transferHost = useCallback((newHostId: string) => {
+    if (playerId) {
+      socket.emit('transfer-host', { playerId, newHostId });
+    }
+  }, [socket, playerId]);
+
+  const revokeWord = useCallback((wordIndex: number) => {
+    if (playerId) {
+      socket.emit('revoke-word', { playerId, wordIndex });
+    }
+  }, [socket, playerId]);
+
   // Derived state
   const currentPlayer = playerId && gameState ? gameState.players[playerId] : null;
   const isHost = currentPlayer?.isHost ?? false;
@@ -157,5 +169,7 @@ export function useGame() {
     nextTurn,
     addTeam,
     removeTeam,
+    transferHost,
+    revokeWord,
   };
 }

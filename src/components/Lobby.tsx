@@ -12,6 +12,7 @@ interface LobbyProps {
   onStartGame: () => void;
   onAddTeam?: () => void;
   onRemoveTeam?: (teamId: string) => void;
+  onTransferHost?: (newHostId: string) => void;
 }
 
 function CopyButton({ url }: { url: string }) {
@@ -32,7 +33,7 @@ function CopyButton({ url }: { url: string }) {
   );
 }
 
-export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStartGame, onAddTeam, onRemoveTeam }: LobbyProps) {
+export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStartGame, onAddTeam, onRemoveTeam, onTransferHost }: LobbyProps) {
   const joinUrl = typeof window !== 'undefined'
     ? gameState.serverHost
       ? `${window.location.protocol}//${gameState.serverHost}/join/${gameState.roomCode}`
@@ -105,11 +106,20 @@ export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStart
                 {teamPlayers.map((p) => (
                   <span
                     key={p.id}
-                    className={`px-2 py-1 rounded-lg text-sm ${
+                    className={`px-2 py-1 rounded-lg text-sm flex items-center gap-1 ${
                       p.id === playerId ? 'bg-indigo-100 font-bold' : 'bg-slate-200'
                     } ${!p.connected ? 'opacity-50' : ''}`}
                   >
                     {p.name} {p.isHost ? '👑' : ''}
+                    {isHost && !p.isHost && onTransferHost && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onTransferHost(p.id); }}
+                        className="text-slate-400 hover:text-amber-500 transition-colors cursor-pointer ml-1"
+                        title="Make host"
+                      >
+                        👑
+                      </button>
+                    )}
                   </span>
                 ))}
                 {teamPlayers.length === 0 && (

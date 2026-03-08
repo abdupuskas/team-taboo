@@ -478,6 +478,43 @@ export class GameManager {
     return this.getClientState(roomCode);
   }
 
+  transferHost(playerId: string, newHostId: string): { roomCode: string; state: GameState } | null {
+    const room = this.findRoomByPlayer(playerId);
+    if (!room) return null;
+    if (playerId !== room.state.hostId) return null;
+    if (!room.state.players[newHostId]) return null;
+    if (newHostId === playerId) return null;
+
+    room.state.players[playerId].isHost = false;
+    room.state.players[newHostId].isHost = true;
+    room.state.hostId = newHostId;
+
+    return { roomCode: room.state.roomCode, state: this.getClientState(room.state.roomCode) };
+  }
+
+  revokeWord(playerId: string, wordIndex: number): { roomCode: string; state: GameState } | null {
+    const room = this.findRoomByPlayer(playerId);
+    if (!room) return null;
+    if (playerId !== room.state.hostId) return null;
+    if (room.state.phase !== 'turn-end') return null;
+    if (!room.state.currentTurn) return null;
+
+    const card = room.state.currentTurn.words[wordIndex];
+    if (!card || !card.guessedBy) return null;
+
+    // Find the team that scored and subtract points
+    const team = room.state.teams.find(t => t.id === room.state.currentTurn!.teamId);
+    if (team) {
+      team.score = Math.max(0, team.score - card.points);
+    }
+
+    card.guessedBy = null;
+    card.points = 0;
+    card.perfectSpelling = false;
+
+    return { roomCode: room.state.roomCode, state: this.getClientState(room.state.roomCode) };
+  }
+
   getDescriberState(roomCode: string): GameState | null {
     const room = this.rooms.get(roomCode);
     if (!room) return null;

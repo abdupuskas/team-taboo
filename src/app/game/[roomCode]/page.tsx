@@ -29,6 +29,8 @@ export default function GamePage() {
     nextTurn,
     addTeam,
     removeTeam,
+    transferHost,
+    revokeWord,
   } = useGame();
 
   if (!gameState || !playerId) {
@@ -62,6 +64,7 @@ export default function GamePage() {
           onStartGame={startGame}
           onAddTeam={addTeam}
           onRemoveTeam={removeTeam}
+          onTransferHost={transferHost}
         />
       </>
     );
@@ -151,6 +154,7 @@ export default function GamePage() {
           isNextDescriber={isNextDescriber}
           nextDescriberName={nextDescriberName}
           onNextTurn={nextTurn}
+          onRevokeWord={revokeWord}
         />
       </>
     );

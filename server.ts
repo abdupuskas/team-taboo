@@ -171,6 +171,20 @@ app.prepare().then(() => {
       }
     });
 
+    socket.on('transfer-host', (data) => {
+      const result = gameManager.transferHost(data.playerId, data.newHostId);
+      if (result) {
+        io.to(`room:${result.roomCode}`).emit('game-state', withServerHost(result.state));
+      }
+    });
+
+    socket.on('revoke-word', (data) => {
+      const result = gameManager.revokeWord(data.playerId, data.wordIndex);
+      if (result) {
+        io.to(`room:${result.roomCode}`).emit('game-state', withServerHost(result.state));
+      }
+    });
+
     socket.on('play-again', (data) => {
       // Find the room for this player
       const room = gameManager.getRoom(
