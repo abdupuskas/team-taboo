@@ -44,7 +44,6 @@ export class GameManager {
       name: playerName,
       teamId: null,
       socketId,
-      isHost: true,
       connected: true,
     };
 
@@ -97,7 +96,6 @@ export class GameManager {
       name: playerName,
       teamId: null,
       socketId,
-      isHost: false,
       connected: true,
     };
 
@@ -249,8 +247,6 @@ export class GameManager {
             const connectedPlayer = Object.values(room.state.players).find(p => p.connected && p.id !== player.id);
             if (connectedPlayer) {
               room.state.hostId = connectedPlayer.id;
-              connectedPlayer.isHost = true;
-              player.isHost = false;
             }
           }
 
@@ -485,8 +481,6 @@ export class GameManager {
     if (!room.state.players[newHostId]) return null;
     if (newHostId === playerId) return null;
 
-    room.state.players[playerId].isHost = false;
-    room.state.players[newHostId].isHost = true;
     room.state.hostId = newHostId;
 
     return { roomCode: room.state.roomCode, state: this.getClientState(room.state.roomCode) };

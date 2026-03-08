@@ -142,7 +142,7 @@ export function useGame() {
 
   // Derived state
   const currentPlayer = playerId && gameState ? gameState.players[playerId] : null;
-  const isHost = currentPlayer?.isHost ?? false;
+  const isHost = playerId != null && playerId === gameState?.hostId;
   const isDescriber = gameState?.currentTurn?.describerId === playerId;
   const isOnActiveTeam = currentPlayer?.teamId === gameState?.currentTurn?.teamId;
   const isGuesser = isOnActiveTeam && !isDescriber;

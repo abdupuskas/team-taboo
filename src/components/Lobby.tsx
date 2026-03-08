@@ -110,14 +110,13 @@ export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStart
                       p.id === playerId ? 'bg-indigo-100 font-bold' : 'bg-slate-200'
                     } ${!p.connected ? 'opacity-50' : ''}`}
                   >
-                    {p.name} {p.isHost ? '👑' : ''}
-                    {isHost && !p.isHost && onTransferHost && (
+                    {p.name} {p.id === gameState.hostId ? ' 👑' : ''}
+                    {isHost && p.id !== gameState.hostId && onTransferHost && (
                       <button
                         onClick={(e) => { e.stopPropagation(); onTransferHost(p.id); }}
-                        className="text-slate-400 hover:text-amber-500 transition-colors cursor-pointer ml-1"
-                        title="Make host"
+                        className="text-xs bg-amber-100 text-amber-700 hover:bg-amber-200 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
                       >
-                        👑
+                        Make Host
                       </button>
                     )}
                   </span>

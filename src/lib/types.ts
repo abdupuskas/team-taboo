@@ -3,7 +3,6 @@ export interface Player {
   name: string;
   teamId: string | null;
   socketId: string;
-  isHost: boolean;
   connected: boolean;
 }
 
