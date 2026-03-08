@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import type { GameState, Player } from '../lib/types';
 
@@ -11,6 +12,24 @@ interface LobbyProps {
   onStartGame: () => void;
   onAddTeam?: () => void;
   onRemoveTeam?: (teamId: string) => void;
+}
+
+function CopyButton({ url }: { url: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }}
+      className={`text-sm underline cursor-pointer transition-colors ${
+        copied ? 'text-green-600' : 'text-indigo-600 hover:text-indigo-500'
+      }`}
+    >
+      {copied ? 'Copied!' : 'Copy invite link'}
+    </button>
+  );
 }
 
 export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStartGame, onAddTeam, onRemoveTeam }: LobbyProps) {
@@ -40,12 +59,7 @@ export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStart
         {joinUrl && (
           <div className="flex flex-col items-center gap-3">
             <QRCodeSVG value={joinUrl} size={160} bgColor="white" fgColor="#1E293B" />
-            <button
-              onClick={() => navigator.clipboard.writeText(joinUrl)}
-              className="text-sm text-indigo-600 hover:text-indigo-500 underline cursor-pointer"
-            >
-              Copy invite link
-            </button>
+            <CopyButton url={joinUrl} />
           </div>
         )}
       </div>

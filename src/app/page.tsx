@@ -7,6 +7,8 @@ import { useGame } from '../hooks/useGame';
 export default function Home() {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showJoin, setShowJoin] = useState(false);
+  const [roomCode, setRoomCode] = useState('');
   const { createRoom } = useGame();
   const router = useRouter();
 
@@ -54,9 +56,44 @@ export default function Home() {
         </button>
       </form>
 
-      <p className="mt-8 text-slate-400 text-sm">
-        Got a room code? Ask the host for the invite link.
-      </p>
+      <div className="mt-8 w-full max-w-sm">
+        {!showJoin ? (
+          <button
+            onClick={() => setShowJoin(true)}
+            className="w-full text-indigo-600 hover:text-indigo-500 text-sm font-medium cursor-pointer transition-colors"
+          >
+            Got a room code? Join a game
+          </button>
+        ) : (
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={roomCode}
+              onChange={(e) => setRoomCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
+              placeholder="Room code"
+              maxLength={6}
+              className="flex-1 bg-white border-2 border-slate-200 rounded-xl px-4 py-3 text-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors text-center font-mono tracking-widest shadow-sm"
+              autoFocus
+              autoComplete="off"
+            />
+            <button
+              onClick={() => {
+                if (roomCode.trim()) {
+                  router.push(`/join/${roomCode.trim()}`);
+                }
+              }}
+              disabled={!roomCode.trim()}
+              className={`px-6 py-3 rounded-xl font-bold transition-all cursor-pointer ${
+                roomCode.trim()
+                  ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              }`}
+            >
+              Join
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
