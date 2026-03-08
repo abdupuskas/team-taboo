@@ -16,7 +16,7 @@ interface LobbyProps {
 export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStartGame, onAddTeam, onRemoveTeam }: LobbyProps) {
   const joinUrl = typeof window !== 'undefined'
     ? gameState.serverHost
-      ? `http://${gameState.serverHost}/join/${gameState.roomCode}`
+      ? `${window.location.protocol}//${gameState.serverHost}/join/${gameState.roomCode}`
       : `${window.location.origin}/join/${gameState.roomCode}`
     : '';
 

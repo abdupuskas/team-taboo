@@ -22,7 +22,8 @@ function getLanIp(): string {
 }
 
 const lanIp = getLanIp();
-const serverHost = `${lanIp}:${port}`;
+const publicDomain = process.env.RAILWAY_PUBLIC_DOMAIN;
+const serverHost = publicDomain || `${lanIp}:${port}`;
 
 function withServerHost(state: GameState): GameState {
   return { ...state, serverHost };
