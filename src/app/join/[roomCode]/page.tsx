@@ -1,37 +1,45 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useGame } from '../hooks/useGame';
+import { useParams, useRouter } from 'next/navigation';
+import { useGame } from '../../../hooks/useGame';
 
-export default function Home() {
+export default function JoinPage() {
+  const params = useParams();
+  const roomCode = params.roomCode as string;
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
-  const { createRoom } = useGame();
+  const [error, setError] = useState('');
+  const { joinRoom } = useGame();
   const router = useRouter();
 
-  const handleHost = async (e: React.FormEvent) => {
+  const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || loading) return;
     setLoading(true);
-    try {
-      const { roomCode } = await createRoom(name.trim());
+    setError('');
+
+    const result = await joinRoom(roomCode, name.trim());
+    if (result.success) {
       router.push(`/game/${roomCode}`);
-    } catch {
+    } else {
+      setError(result.error || 'Failed to join room');
       setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col items-center justify-center p-4">
-      <div className="text-center mb-12">
-        <h1 className="text-6xl font-black mb-3 bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-black mb-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
           Team Taboo
         </h1>
-        <p className="text-slate-500 text-lg">The word guessing party game</p>
+        <p className="text-slate-500">
+          Joining room <span className="font-mono font-bold text-slate-800 tracking-widest">{roomCode}</span>
+        </p>
       </div>
 
-      <form onSubmit={handleHost} className="w-full max-w-sm space-y-4">
+      <form onSubmit={handleJoin} className="w-full max-w-sm space-y-4">
         <input
           type="text"
           value={name}
@@ -40,23 +48,25 @@ export default function Home() {
           maxLength={20}
           className="w-full bg-white border-2 border-slate-200 rounded-xl px-4 py-4 text-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors text-center shadow-sm"
           autoComplete="off"
+          autoFocus
         />
+
+        {error && (
+          <p className="text-red-500 text-sm text-center">{error}</p>
+        )}
+
         <button
           type="submit"
           disabled={!name.trim() || loading}
           className={`w-full py-4 rounded-xl text-xl font-bold transition-all cursor-pointer ${
             name.trim() && !loading
-              ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+              ? 'bg-green-500 hover:bg-green-400 text-white shadow-lg shadow-green-500/20'
               : 'bg-slate-200 text-slate-400 cursor-not-allowed'
           }`}
         >
-          {loading ? 'Creating...' : 'Host a Game'}
+          {loading ? 'Joining...' : 'Join Game'}
         </button>
       </form>
-
-      <p className="mt-8 text-slate-400 text-sm">
-        Got a room code? Ask the host for the invite link.
-      </p>
     </div>
   );
 }
