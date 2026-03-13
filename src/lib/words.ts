@@ -136,6 +136,11 @@ const movies = [
   'beauty and the beast', 'little mermaid', 'jungle book', 'peter pan',
   'mary poppins', 'wizard of oz', 'charlie and the chocolate factory',
   'home alone', 'elf', 'grinch', 'polar express', 'die hard',
+  'interstellar', 'dunkirk', 'saving private ryan', 'forrest gump',
+  'pulp fiction', 'fight club', 'the shining', 'back to the future',
+  'indiana jones', 'star wars', 'lord of the rings', 'harry potter',
+  'hunger games', 'twilight', 'fast and furious', 'mission impossible',
+  'john wick', 'guardians of the galaxy', 'doctor strange', 'ant-man',
 ];
 
 const tvShows = [
@@ -173,6 +178,11 @@ const celebrities = [
   'lionel messi', 'cristiano ronaldo', 'lebron james', 'michael jordan',
   'serena williams', 'usain bolt', 'muhammad ali', 'mike tyson', 'tiger woods',
   'tom brady', 'kobe bryant', 'stephen curry', 'connor mcgregor',
+  'jack nicholson', 'al pacino', 'robert de niro', 'tom cruise', 'matt damon',
+  'angelina jolie', 'jennifer aniston', 'anne hathaway', 'natalie portman',
+  'chris pratt', 'adam sandler', 'jim carrey', 'eddie murphy', 'jackie chan',
+  'mr beast', 'kim kardashian', 'gordon ramsay', 'david letterman',
+  'shakira', 'nicki minaj',
 ];
 
 const music = [
@@ -428,6 +438,20 @@ const brands = [
   'gummy bear', 'jawbreaker', 'lollipop', 'bubblegum', 'candy cane',
   'cotton candy', 'rock candy', 'taffy', 'licorice', 'jelly bean',
   'popsicle', 'drumstick', 'ice cream sandwich', 'banana split', 'sundae',
+  // General brands
+  'mcdonalds', 'burger king', 'starbucks', 'nike', 'adidas', 'apple', 'samsung',
+  'netflix', 'disney', 'google', 'amazon', 'tesla', 'uber', 'airbnb', 'spotify',
+  'tiktok', 'instagram', 'snapchat', 'youtube', 'twitter', 'playstation', 'xbox',
+  'nintendo', 'lego', 'ikea',
+  // Fashion brands
+  'gucci', 'louis vuitton', 'chanel', 'prada', 'versace', 'balenciaga', 'dior',
+  'hermes', 'zara', 'supreme', 'jordan brand', 'ralph lauren', 'calvin klein',
+  'tommy hilfiger', 'rolex',
+  // Car brands
+  'audi', 'toyota', 'lexus', 'ford', 'chevrolet', 'dodge', 'jeep', 'land rover',
+  'cadillac', 'mini cooper', 'alfa romeo', 'subaru', 'volvo', 'range rover',
+  'pagani', 'mercedes', 'bmw', 'porsche', 'lamborghini', 'bugatti', 'rolls royce',
+  'bentley', 'aston martin', 'maserati', 'corvette',
 ];
 
 const sportsStars = [
@@ -454,6 +478,22 @@ const sportsStars = [
   'Green Bay Packers', 'All Blacks', 'Springboks',
   'Ferrari', 'Red Bull Racing', 'Mercedes F1',
   'Al Ahly', 'Flamengo', 'Boca Juniors', 'River Plate',
+  // New athletes
+  'Lamine Yamal', 'Jude Bellingham', 'Kyrie Irving', 'Patrick Mahomes',
+  'Canelo Alvarez', 'Tyson Fury', 'Dustin Poirier', 'Maria Sharapova',
+  'Andriy Shevchenko', 'Didier Drogba', 'Roberto Carlos', 'Karim Benzema',
+  'Vinicius Jr', 'Bukayo Saka', 'Robert Lewandowski', 'Andres Iniesta',
+  'Xavi', 'Paolo Maldini', 'Kaka', 'Samuel Eto\'o', 'Sadio Mane',
+  'Luka Doncic', 'Nikola Jokic', 'James Harden', 'Magic Johnson',
+  'Larry Bird', 'Allen Iverson', 'Tim Duncan', 'Manny Pacquiao',
+  'Khabib Nurmagomedov', 'Anthony Joshua', 'Carlos Alcaraz', 'Andre Agassi',
+  'Peyton Manning', 'Travis Kelce',
+  // New teams
+  'Inter Milan', 'Atletico Madrid', 'Tottenham Hotspur', 'San Antonio Spurs',
+  'Toronto Raptors', 'Napoli', 'Ajax', 'Benfica', 'Porto', 'Galatasaray',
+  'Celtic FC', 'Al Hilal', 'Brooklyn Nets', 'Phoenix Suns', 'Milwaukee Bucks',
+  'Denver Nuggets', 'Kansas City Chiefs', 'San Francisco 49ers',
+  'Las Vegas Raiders', 'LA Dodgers', 'Boston Red Sox', 'Chicago Cubs', 'McLaren F1',
 ];
 
 const weird = [
@@ -472,6 +512,27 @@ const weird = [
   'lineup', 'witness protection', 'most wanted', 'fugitive',
 ];
 
+const politicalFigures = [
+  'barack obama', 'donald trump', 'joe biden', 'hillary clinton', 'bernie sanders',
+  'abraham lincoln', 'george washington', 'john f kennedy', 'martin luther king',
+  'nelson mandela', 'winston churchill', 'queen elizabeth', 'king charles',
+  'princess diana', 'vladimir putin', 'angela merkel', 'emmanuel macron',
+  'justin trudeau', 'xi jinping', 'margaret thatcher', 'cleopatra',
+  'julius caesar', 'napoleon', 'gandhi', 'fidel castro', 'dalai lama',
+  'pope francis', 'malala',
+];
+
+const famousCities = [
+  'new york', 'los angeles', 'london', 'paris', 'tokyo', 'dubai', 'rome',
+  'berlin', 'moscow', 'sydney', 'rio de janeiro', 'buenos aires', 'cairo',
+  'istanbul', 'mumbai', 'beijing', 'shanghai', 'hong kong', 'singapore',
+  'bangkok', 'seoul', 'las vegas', 'miami', 'chicago', 'san francisco',
+  'toronto', 'vancouver', 'barcelona', 'amsterdam', 'prague', 'vienna',
+  'zurich', 'cape town', 'marrakech', 'nairobi', 'havana', 'jerusalem',
+  'mecca', 'athens', 'venice', 'florence', 'lisbon', 'edinburgh', 'dublin',
+  'stockholm', 'copenhagen', 'oslo', 'helsinki',
+];
+
 export const ALL_WORDS: string[] = [...new Set([
   ...animals, ...food, ...countries, ...objects, ...professions, ...sports,
   ...places, ...movies, ...tvShows, ...celebrities, ...music, ...videoGames,
@@ -479,7 +540,7 @@ export const ALL_WORDS: string[] = [...new Set([
   ...miscellaneous, ...fashion, ...bodyAndHealth, ...nature, ...transportation,
   ...foodAndDrink2, ...occupationsAndRoles,
   ...technology, ...sportsAndGames2, ...everyday, ...brands,
-  ...weird, ...sportsStars,
+  ...weird, ...sportsStars, ...politicalFigures, ...famousCities,
 ])];
 
 // Fisher-Yates shuffle
