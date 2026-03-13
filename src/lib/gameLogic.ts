@@ -483,7 +483,6 @@ export class GameManager {
     if (!room) return null;
 
     this.clearTimer(room);
-    room.usedWords.clear();
 
     // Reset scores and describer indices
     for (const team of room.state.teams) {
