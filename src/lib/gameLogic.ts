@@ -193,6 +193,32 @@ export class GameManager {
     // Can't guess if you're not on the describing team
     if (player.teamId !== turn.teamId) return;
 
+    // Check for spelling upgrade on fuzzy-matched (1pt) words
+    for (let i = 0; i < turn.words.length; i++) {
+      const card = turn.words[i];
+      if (card.guessedBy && !card.perfectSpelling && card.points === 1) {
+        const result = checkGuess(guess, card.word);
+        if (result.matched && result.perfectSpelling) {
+          card.perfectSpelling = true;
+          card.points = 2;
+          card.guessedBy = player.name;
+          const team = room.state.teams.find(t => t.id === turn.teamId);
+          if (team) team.score += 1; // add the +1 difference
+
+          this.onGuessResult(room.state.roomCode, turn.teamId, {
+            matched: true,
+            perfectSpelling: true,
+            points: 2,
+            wordIndex: i,
+            guesserName: player.name,
+          });
+
+          this.onStateChange(room.state.roomCode, this.getClientState(room.state.roomCode));
+          return;
+        }
+      }
+    }
+
     // Check each unguessed word
     for (let i = 0; i < turn.words.length; i++) {
       const card = turn.words[i];
