@@ -29,7 +29,7 @@ export default function GamePage() {
     nextTurn,
     addTeam,
     removeTeam,
-    transferHost,
+    removePlayer,
     revokeWord,
   } = useGame();
 
@@ -64,7 +64,7 @@ export default function GamePage() {
           onStartGame={startGame}
           onAddTeam={addTeam}
           onRemoveTeam={removeTeam}
-          onTransferHost={transferHost}
+          onRemovePlayer={removePlayer}
         />
       </>
     );

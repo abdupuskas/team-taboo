@@ -25,13 +25,32 @@ export default function SpectatorView({ gameState, turn, timeLeft }: SpectatorVi
 
       <Timer timeLeft={timeLeft} totalTime={TURN_DURATION} size={140} />
 
-      <div className="mt-8 text-center">
-        <p className="text-5xl font-black">{turn.wordsGuessed}<span className="text-slate-400">/{turn.words.length}</span></p>
-        <p className="text-slate-500 text-sm mt-1">words guessed</p>
+      {/* Word cards for anti-cheat monitoring */}
+      <div className="w-full max-w-sm mt-6 space-y-2">
+        <p className="text-xs text-slate-400 text-center mb-2">Words to guess — watch for cheating!</p>
+        {turn.words.map((card, i) => (
+          <div
+            key={i}
+            className={`flex items-center justify-between px-4 py-3 rounded-xl ${
+              card.guessedBy
+                ? 'bg-green-50 border border-green-200'
+                : 'bg-white border border-slate-200'
+            }`}
+          >
+            <span className={`font-medium ${card.guessedBy ? 'text-green-700 line-through' : 'text-slate-800'}`}>
+              {card.word}
+            </span>
+            {card.guessedBy ? (
+              <span className="text-green-600 text-sm">{card.guessedBy} +{card.points}</span>
+            ) : (
+              <span className="text-slate-400 text-sm">unguessed</span>
+            )}
+          </div>
+        ))}
       </div>
 
       {/* Team scores */}
-      <div className="w-full max-w-sm mt-8 space-y-2">
+      <div className="w-full max-w-sm mt-6 space-y-2">
         {gameState.teams.filter(t => t.playerIds.length > 0).map((team) => (
           <div
             key={team.id}

@@ -474,16 +474,34 @@ export class GameManager {
     return this.getClientState(roomCode);
   }
 
-  transferHost(playerId: string, newHostId: string): { roomCode: string; state: GameState } | null {
+  removePlayer(playerId: string, targetId: string): { roomCode: string; state: GameState; removedSocketId: string } | null {
     const room = this.findRoomByPlayer(playerId);
     if (!room) return null;
     if (playerId !== room.state.hostId) return null;
-    if (!room.state.players[newHostId]) return null;
-    if (newHostId === playerId) return null;
+    if (targetId === room.state.hostId) return null; // can't remove yourself
+    const target = room.state.players[targetId];
+    if (!target) return null;
 
-    room.state.hostId = newHostId;
+    const removedSocketId = target.socketId;
 
-    return { roomCode: room.state.roomCode, state: this.getClientState(room.state.roomCode) };
+    // Remove from team
+    if (target.teamId) {
+      const team = room.state.teams.find(t => t.id === target.teamId);
+      if (team) {
+        team.playerIds = team.playerIds.filter(id => id !== targetId);
+      }
+    }
+
+    // If removed player is current describer, end the turn
+    if (room.state.currentTurn?.describerId === targetId &&
+        (room.state.phase === 'describing' || room.state.phase === 'turn-start')) {
+      this.endTurn(room.state.roomCode);
+    }
+
+    // Remove player from state
+    delete room.state.players[targetId];
+
+    return { roomCode: room.state.roomCode, state: this.getClientState(room.state.roomCode), removedSocketId };
   }
 
   revokeWord(playerId: string, wordIndex: number): { roomCode: string; state: GameState } | null {

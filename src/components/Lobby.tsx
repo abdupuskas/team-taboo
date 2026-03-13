@@ -12,7 +12,7 @@ interface LobbyProps {
   onStartGame: () => void;
   onAddTeam?: () => void;
   onRemoveTeam?: (teamId: string) => void;
-  onTransferHost?: (newHostId: string) => void;
+  onRemovePlayer?: (targetId: string) => void;
 }
 
 function CopyButton({ url }: { url: string }) {
@@ -33,7 +33,7 @@ function CopyButton({ url }: { url: string }) {
   );
 }
 
-export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStartGame, onAddTeam, onRemoveTeam, onTransferHost }: LobbyProps) {
+export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStartGame, onAddTeam, onRemoveTeam, onRemovePlayer }: LobbyProps) {
   const joinUrl = typeof window !== 'undefined'
     ? gameState.serverHost
       ? `${window.location.protocol}//${gameState.serverHost}/join/${gameState.roomCode}`
@@ -111,12 +111,12 @@ export default function Lobby({ gameState, playerId, isHost, onPickTeam, onStart
                     } ${!p.connected ? 'opacity-50' : ''}`}
                   >
                     {p.name} {p.id === gameState.hostId ? ' 👑' : ''}
-                    {isHost && p.id !== gameState.hostId && onTransferHost && (
+                    {isHost && p.id !== gameState.hostId && onRemovePlayer && (
                       <button
-                        onClick={(e) => { e.stopPropagation(); onTransferHost(p.id); }}
-                        className="text-xs bg-amber-100 text-amber-700 hover:bg-amber-200 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
+                        onClick={(e) => { e.stopPropagation(); onRemovePlayer(p.id); }}
+                        className="text-xs bg-red-100 text-red-600 hover:bg-red-200 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
                       >
-                        Make Host
+                        Remove
                       </button>
                     )}
                   </span>

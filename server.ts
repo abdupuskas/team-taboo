@@ -45,13 +45,26 @@ app.prepare().then(() => {
     onStateChange: (roomCode, state) => {
       if (state.currentTurn && (state.phase === 'describing' || state.phase === 'turn-start')) {
         const describer = state.players[state.currentTurn.describerId];
+        const activeTeamId = state.currentTurn.teamId;
+
         if (describer) {
-          // Send redacted state to everyone EXCEPT describer
-          io.to(`room:${roomCode}`).except(describer.socketId).emit('game-state', withServerHost(state));
-          // Send full state to describer only
           const describerState = gameManager.getDescriberState(roomCode);
-          if (describerState) {
-            io.to(describer.socketId).emit('game-state', withServerHost(describerState));
+          if (!describerState) return;
+
+          const redactedState = withServerHost(state);
+          const fullState = withServerHost(describerState);
+
+          // Send per-player: describer + spectators get full, guessers get redacted
+          for (const player of Object.values(state.players)) {
+            if (player.id === describer.id) {
+              io.to(player.socketId).emit('game-state', fullState);
+            } else if (player.teamId === activeTeamId) {
+              // Guesser on active team — redacted words
+              io.to(player.socketId).emit('game-state', redactedState);
+            } else {
+              // Spectator (other team) — full words for anti-cheat
+              io.to(player.socketId).emit('game-state', fullState);
+            }
           }
           return;
         }
@@ -171,9 +184,17 @@ app.prepare().then(() => {
       }
     });
 
-    socket.on('transfer-host', (data) => {
-      const result = gameManager.transferHost(data.playerId, data.newHostId);
+    socket.on('remove-player', (data) => {
+      const result = gameManager.removePlayer(data.playerId, data.targetId);
       if (result) {
+        // Notify the removed player before disconnecting them
+        io.to(result.removedSocketId).emit('kicked');
+        // Remove them from the room
+        const removedSocket = io.sockets.sockets.get(result.removedSocketId);
+        if (removedSocket) {
+          removedSocket.leave(`room:${result.roomCode}`);
+        }
+        // Broadcast updated state
         io.to(`room:${result.roomCode}`).emit('game-state', withServerHost(result.state));
       }
     });

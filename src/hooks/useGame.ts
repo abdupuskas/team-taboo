@@ -46,11 +46,20 @@ export function useGame() {
       setTimeout(() => setError(null), 3000);
     };
 
+    const onKicked = () => {
+      sessionStorage.removeItem('playerId');
+      sessionStorage.removeItem('roomCode');
+      setGameState(null);
+      setPlayerId(null);
+      window.location.href = '/';
+    };
+
     socket.on('game-state', onGameState);
     socket.on('timer-tick', onTimerTick);
     socket.on('guess-result', onGuessResult);
     socket.on('wrong-guess', onWrongGuess);
     socket.on('error', onError);
+    socket.on('kicked', onKicked);
 
     return () => {
       socket.off('game-state', onGameState);
@@ -58,6 +67,7 @@ export function useGame() {
       socket.off('guess-result', onGuessResult);
       socket.off('wrong-guess', onWrongGuess);
       socket.off('error', onError);
+      socket.off('kicked', onKicked);
     };
   }, [socket]);
 
@@ -128,9 +138,9 @@ export function useGame() {
     }
   }, [socket, playerId]);
 
-  const transferHost = useCallback((newHostId: string) => {
+  const removePlayer = useCallback((targetId: string) => {
     if (playerId) {
-      socket.emit('transfer-host', { playerId, newHostId });
+      socket.emit('remove-player', { playerId, targetId });
     }
   }, [socket, playerId]);
 
@@ -169,7 +179,7 @@ export function useGame() {
     nextTurn,
     addTeam,
     removeTeam,
-    transferHost,
+    removePlayer,
     revokeWord,
   };
 }
