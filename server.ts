@@ -119,14 +119,51 @@ app.prepare().then(() => {
     socket.on('reconnect-player', (data, callback) => {
       const result = gameManager.reconnectPlayer(data.playerId, data.roomCode, socket.id);
       if (result.success && result.state) {
-        socket.join(`room:${data.roomCode}`);
+        const roomCode = data.roomCode;
+        socket.join(`room:${roomCode}`);
         // Also rejoin team room
         const player = result.state.players[data.playerId];
         if (player?.teamId) {
-          socket.join(`room:${data.roomCode}:team:${player.teamId}`);
+          socket.join(`room:${roomCode}:team:${player.teamId}`);
         }
-        callback({ ...result, state: withServerHost(result.state) });
-        io.to(`room:${data.roomCode}`).emit('game-state', withServerHost(result.state));
+
+        // Send correct state to the reconnecting player (role-aware)
+        if (result.state.currentTurn && (result.state.phase === 'describing' || result.state.phase === 'turn-start')) {
+          const describerId = result.state.currentTurn.describerId;
+          if (data.playerId === describerId || player?.teamId !== result.state.currentTurn.teamId) {
+            // Describer or spectator — send full state
+            const fullState = gameManager.getDescriberState(roomCode);
+            callback({ success: true, state: withServerHost(fullState || result.state) });
+          } else {
+            // Guesser — send redacted state
+            callback({ success: true, state: withServerHost(result.state) });
+          }
+        } else {
+          callback({ success: true, state: withServerHost(result.state) });
+        }
+
+        // Broadcast connected status update to others (role-aware)
+        const clientState = result.state;
+        if (clientState.currentTurn && (clientState.phase === 'describing' || clientState.phase === 'turn-start')) {
+          const describerState = gameManager.getDescriberState(roomCode);
+          if (describerState) {
+            const redacted = withServerHost(clientState);
+            const full = withServerHost(describerState);
+            const describerId = clientState.currentTurn.describerId;
+            const activeTeamId = clientState.currentTurn.teamId;
+            for (const p of Object.values(clientState.players)) {
+              if (p.id === data.playerId) continue; // already sent via callback
+              if (p.id === describerId || p.teamId !== activeTeamId) {
+                io.to(p.socketId).emit('game-state', full);
+              } else {
+                io.to(p.socketId).emit('game-state', redacted);
+              }
+            }
+          }
+        } else {
+          // Non-active phase — safe to broadcast to all except reconnecting player
+          socket.to(`room:${roomCode}`).emit('game-state', withServerHost(clientState));
+        }
       } else {
         callback(result);
       }

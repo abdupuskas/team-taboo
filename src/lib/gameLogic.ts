@@ -339,18 +339,19 @@ export class GameManager {
     // Countdown before describing starts
     let countdown = TURN_START_COUNTDOWN;
     this.clearTimer(room);
+    this.onTimerTick(roomCode, countdown); // Send initial 3
 
     room.timer = setInterval(() => {
       countdown--;
+      if (countdown <= 0) {
+        this.clearTimer(room);
+        this.startDescribing(roomCode);
+        return;
+      }
       if (room.state.currentTurn) {
         room.state.currentTurn.timeLeft = countdown;
       }
       this.onTimerTick(roomCode, countdown);
-
-      if (countdown <= 0) {
-        this.clearTimer(room);
-        this.startDescribing(roomCode);
-      }
     }, 1000);
   }
 
