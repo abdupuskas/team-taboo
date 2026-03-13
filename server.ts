@@ -44,19 +44,17 @@ app.prepare().then(() => {
   const gameManager = new GameManager({
     onStateChange: (roomCode, state) => {
       if (state.currentTurn && (state.phase === 'describing' || state.phase === 'turn-start')) {
-        const describer = state.players[state.currentTurn.describerId];
+        const describerId = state.currentTurn.describerId;
         const activeTeamId = state.currentTurn.teamId;
+        const describerState = gameManager.getDescriberState(roomCode);
 
-        if (describer) {
-          const describerState = gameManager.getDescriberState(roomCode);
-          if (!describerState) return;
-
+        if (describerState) {
           const redactedState = withServerHost(state);
           const fullState = withServerHost(describerState);
 
-          // Send per-player: describer + spectators get full, guessers get redacted
           for (const player of Object.values(state.players)) {
-            if (player.id === describer.id) {
+            if (player.id === describerId) {
+              // Describer — always gets full unredacted state
               io.to(player.socketId).emit('game-state', fullState);
             } else if (player.teamId === activeTeamId) {
               // Guesser on active team — redacted words
